@@ -3,8 +3,8 @@ package gad.radix;
 public class BinaryBucket {
 
 	private int[] bucket;
-	int leftPointer;
-	int rightPointer;
+	private int leftPointer;
+	private int rightPointer;
 
 	public BinaryBucket(int size) {
 		bucket = new int[size];

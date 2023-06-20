@@ -10,7 +10,10 @@ public final class RadixSort {
     }
 
     public static int key(int element, int decPlace) {
-        return 0;
+        String number = "" + element;
+        char[] digits = number.toCharArray();
+        char key = digits[digits.length - 1 - decPlace];
+        return Character.getNumericValue(key);
     }
 
     public static int getMaxDecimalPlaces(int[] elements) {

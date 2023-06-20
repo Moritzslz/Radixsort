@@ -10,10 +10,12 @@ public final class RadixSort {
     }
 
     public static int key(int element, int decPlace) {
-        String number = "" + element;
-        char[] digits = number.toCharArray();
-        char key = digits[digits.length - 1 - decPlace];
-        return Character.getNumericValue(key);
+        int key = 0;
+        for (int i = 0; i <= decPlace; i++) {
+            key = element % 10;
+            element /= 10;
+        }
+        return key;
     }
 
     public static int getMaxDecimalPlaces(int[] elements) {

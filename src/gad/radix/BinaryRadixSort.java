@@ -25,6 +25,8 @@ public final class BinaryRadixSort {
     }
 
     public static void main(String[] args) {
+        System.out.println(RadixSort.key(123, 3));
+
         int[] test = new int[10_000_000];
         Random random = new Random();
         for (int i = 0; i < test.length; i++) {

@@ -26,8 +26,12 @@ public final class BinaryRadixSort {
 
     public static void main(String[] args) {
         int[] testArray = new int[] {1, 2, 34, 532, 2222, 1, 0, 34567};
+        int[] testArray2 = new int[] {};
+        int[] testArray3 = new int[] {-1, -2, -34, 532, -2222, -1, -0, -34567};
+        int[] testArray4 = new int[] {0, 0, 0, 0, 0, 0, 0};
+        int[] testArray5 = new int[] {0123, 93, 123};
         System.out.println(RadixSort.key(123, 3));
-        System.out.println(RadixSort.getMaxDecimalPlaces(testArray));
+        System.out.println(RadixSort.getMaxDecimalPlaces(testArray5));
 
         int[] test = new int[10_000_000];
         Random random = new Random();

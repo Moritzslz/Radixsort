@@ -22,6 +22,7 @@ public final class RadixSort {
         int maxDecimalPlaces = 0;
         for (int i = 0; i < elements.length; i++) {
             int currentDecimalPlaces = 0;
+            String number = elements[i] + "";
             for (int k = 1; elements[i] / k != 0; k *= 10) {
                 currentDecimalPlaces++;
                 if (currentDecimalPlaces > maxDecimalPlaces) {

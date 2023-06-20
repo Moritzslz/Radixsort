@@ -21,14 +21,20 @@ public final class RadixSort {
     public static int getMaxDecimalPlaces(int[] elements) {
         int maxDecimalPlaces = 0;
         for (int i = 0; i < elements.length; i++) {
-            int currentDecimalPlaces = 0;
-            String number = elements[i] + "";
+            String number = ""+ elements[i];
+            int currentDecimalPlaces = number.length();
+            if (currentDecimalPlaces > maxDecimalPlaces) {
+                maxDecimalPlaces = currentDecimalPlaces;
+            }
+            /*
             for (int k = 1; elements[i] / k != 0; k *= 10) {
                 currentDecimalPlaces++;
                 if (currentDecimalPlaces > maxDecimalPlaces) {
                     maxDecimalPlaces = currentDecimalPlaces;
                 }
             }
+
+             */
         }
         return maxDecimalPlaces;
     }

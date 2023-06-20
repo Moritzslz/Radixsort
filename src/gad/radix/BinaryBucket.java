@@ -20,9 +20,9 @@ public class BinaryBucket {
 	}
 
 	public void insertRight(int number) {
-		if (rightPointer < bucket.length) {
+		if (rightPointer >= 0) {
 			bucket[rightPointer] = number;
-			rightPointer++;
+			rightPointer--;
 		}
 
 	}

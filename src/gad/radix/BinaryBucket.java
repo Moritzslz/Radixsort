@@ -40,7 +40,7 @@ public class BinaryBucket {
 	}
 
 	public int getValue(int index) {
-		if (index > 0 && index < bucket.length) {
+		if (index >= 0 && index < bucket.length) {
 			return bucket[index];
 		} else {
 			return bucket.length;

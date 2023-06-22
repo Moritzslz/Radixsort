@@ -15,11 +15,10 @@ public final class BinaryRadixSort {
     public static void kSort(BinaryBucket from, BinaryBucket to, int binPlace) {
         for (int i = 0; i < from.getSize(); i++) {
             int value = from.getValue(i);
-            int temp = value;
-            int bit = key(temp, binPlace);
-            if (bit == 1)
+            int bit = key(value, binPlace);
+            if (bit == 1) {
                 to.insertRight(value);
-            else {
+            } else {
                 to.insertLeft(value);
             }
         }
@@ -33,21 +32,20 @@ public final class BinaryRadixSort {
     }
 
     public static void main(String[] args) {
-        //int[] test = new int[10_000_000];
-        int[] test = new int[10];
+        int[] test = new int[10_000_000];
         Random random = new Random();
 
         for (int i = 0; i < test.length; i++) {
             test[i] = random.nextInt(100);
         }
-
-        BinaryBucket from = new BinaryBucket(10);
-        BinaryBucket to = new BinaryBucket(10);
-        for (int i = 0; i < test.length; i++) {
-            from.insertLeft(test[i]);
+        //int[] test2 = new int[] {0100, 1001, 1111, 1010, 0001, 0110};
+        int[] test2 = new int[] {4, 9, 15, 10, 1, 6};
+        BinaryBucket from = new BinaryBucket(8);
+        BinaryBucket to = new BinaryBucket(8);
+        for (int i = 0; i < test2.length; i++) {
+            from.insertLeft(test2[i]);
         }
-
-        kSort(from, to, 1);
+        kSort(from, to, 0);
         System.out.println(Arrays.toString(from.getBucket()));
         System.out.println(Arrays.toString(to.getBucket()));
 

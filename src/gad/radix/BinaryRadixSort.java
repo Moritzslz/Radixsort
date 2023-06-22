@@ -22,6 +22,10 @@ public final class BinaryRadixSort {
                 to.insertLeft(value);
             }
         }
+        BinaryBucket temp = from;
+        from = to;
+        to = temp;
+
     }
 
     public static void lastSort(BinaryBucket from, int[] to) {
@@ -29,18 +33,6 @@ public final class BinaryRadixSort {
     }
 
     public static void sort(int[] elements, Result result) {
-        BinaryBucket from = new BinaryBucket(elements.length);
-        BinaryBucket to = new BinaryBucket(elements.length);
-        for (int l = 0; l < elements.length; l++) {
-            from.insertLeft(elements[l]);
-        }
-        for (int i = 0; i < 32; i++) {
-            for (int k = 0; k < elements.length; k++) {
-                kSort(from, to, i);
-                result.logArray(to.getBucket());
-            }
-            from = to;
-        }
     }
 
     public static void main(String[] args) {

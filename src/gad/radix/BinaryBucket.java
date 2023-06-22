@@ -34,4 +34,16 @@ public class BinaryBucket {
 	public void logArray(Result result) {
 		result.logArray(bucket);
 	}
+
+	public int getSize() {
+		return bucket.length;
+	}
+
+	public int getValue(int index) {
+		if (index > 0 && index < bucket.length) {
+			return bucket[index];
+		} else {
+			return bucket.length;
+		}
+	}
 }

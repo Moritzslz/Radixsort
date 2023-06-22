@@ -13,13 +13,14 @@ public final class BinaryRadixSort {
     }
 
     public static void kSort(BinaryBucket from, BinaryBucket to, int binPlace) {
-        int temp = key(from.getMid(), binPlace);
-        if(temp == 1)
-            to.insertRight(from.getMid());
-        else {
-            to.insertLeft(from.getMid());
+        for(int i = 0; i < from.getSize(); i++) {
+            int temp = key(from.getValue(i), binPlace);
+            if (temp == 1)
+                to.insertRight(from.getMid());
+            else {
+                to.insertLeft(from.getMid());
+            }
         }
-        from.insertLeft(69);
     }
 
     public static void lastSort(BinaryBucket from, int[] to) {

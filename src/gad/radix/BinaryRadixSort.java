@@ -13,19 +13,14 @@ public final class BinaryRadixSort {
     }
 
     public static void kSort(BinaryBucket from, BinaryBucket to, int binPlace) {
-        int maxDecimalPlaces = from.getMaxDecimalPlaces();
-        binPlace = 0;
-        for (int k = 0; k < maxDecimalPlaces; k++){
-            for (int i = 0; i < from.getSize(); i++) {
-                int value = from.getValue(i);
-                int bit = key(value, binPlace);
-                if (bit == 1)
-                    to.insertRight(value);
-                else {
-                    to.insertLeft(value);
-                }
+        for (int i = 0; i < from.getSize(); i++) {
+            int value = from.getValue(i);
+            int bit = key(value, binPlace);
+            if (bit == 1)
+                to.insertRight(value);
+            else {
+                to.insertLeft(value);
             }
-            binPlace++;
         }
     }
 
@@ -34,7 +29,17 @@ public final class BinaryRadixSort {
     }
 
     public static void sort(int[] elements, Result result) {
-
+        BinaryBucket from = new BinaryBucket(elements.length);
+        BinaryBucket to = new BinaryBucket(elements.length);
+        for (int l = 0; l < elements.length; l++) {
+            from.insertLeft(elements[l]);
+        }
+        for (int i = 0; i < 32; i++) {
+            for (int k = 0; k < elements.length; k++) {
+                kSort(from, to, i);
+            }
+            from = to;
+        }
     }
 
     public static void main(String[] args) {

@@ -46,4 +46,16 @@ public class BinaryBucket {
 			return bucket.length;
 		}
 	}
+
+	public int getMaxDecimalPlaces() {
+		int maxDecimalPlaces = 0;
+		for (int i = 0; i < bucket.length; i++) {
+			String number = "" + bucket[i];
+			int currentDecimalPlaces = number.length();
+			if (currentDecimalPlaces > maxDecimalPlaces) {
+				maxDecimalPlaces = currentDecimalPlaces;
+			}
+		}
+		return maxDecimalPlaces;
+	}
 }

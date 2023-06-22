@@ -37,6 +37,7 @@ public final class BinaryRadixSort {
         for (int i = 0; i < 32; i++) {
             for (int k = 0; k < elements.length; k++) {
                 kSort(from, to, i);
+                result.logArray(to.getBucket());
             }
             from = to;
         }

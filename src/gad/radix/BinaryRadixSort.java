@@ -13,12 +13,9 @@ public final class BinaryRadixSort {
     }
 
     public static void kSort(BinaryBucket from, BinaryBucket to, int binPlace) {
-        int size = from.getSize();
-
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < from.getSize(); i++) {
             int value = from.getValue(i);
             int bit = key(value, binPlace);
-
             if (bit == 0) {
                 to.insertLeft(value);
             } else {
@@ -28,67 +25,35 @@ public final class BinaryRadixSort {
     }
 
     public static void lastSort(BinaryBucket from, int[] to) {
-        int size = from.getSize();
-        int left = 0;
-        int right = size - 1;
-
-        for (int i = 0; i < size; i++) {
-            int value = from.getValue(i);
-
-            if (value < 0) {
-                to[right] = value;
-            } else {
-                to[left] = value;
-            }
-        }
     }
 
     public static void sort(int[] elements, Result result) {
-        // Init buckets
+        //Init Buckets
         BinaryBucket from = new BinaryBucket(elements.length);
         BinaryBucket to = new BinaryBucket(elements.length);
         from.setBucket(elements);
 
-        // Perform kSort for each binary place
-        for (int binPlace = 31; binPlace <= 0; binPlace--) {
-            if (binPlace == 31) {
-                for (int i = 0; i < from.getSize(); i++) {
-                    int value = from.getValue(i);
-                    int bit = key(value, binPlace);
-
-                    if (bit == 0) {
-                        to.insertRight(value);
-                    } else {
-                        to.insertLeft(value);
-                    }
-                }
-            } else {
-                kSort(from, to, binPlace);
-            }
-            result.logArray(to.getBucket());
-            BinaryBucket temp = from;
+        for (int bitIdx = 0; bitIdx < 32; bitIdx++) {
+            kSort(from, to, bitIdx);
             from = to;
-            to = temp;
         }
 
-        // Handle negative numbers using lastSort
         lastSort(from, elements);
         result.logArray(elements);
     }
 
     public static void main(String[] args) {
-        System.out.println(key(-4, 31));
-        System.out.println(key(4, 31));
-        // Own test implementation
         int[] elements = new int[10];
         Random element = new Random();
         for (int i = 0; i < elements.length; i++) {
             elements[i] = element.nextInt(200);
         }
 
+        System.out.println("Start: " + Arrays.toString(elements));
         StudentResult studentResult = new StudentResult();
         sort(elements, studentResult);
 
+        /*
         int[] test = new int[10_000_000];
         Random random = new Random();
         for (int i = 0; i < test.length; i++) {
@@ -109,5 +74,7 @@ public final class BinaryRadixSort {
         System.out.println("Korrekt sortiert:" + Arrays.equals(test, testTwo));
         System.out.println("Binary: " + binaryTime / 1_000_000);
         System.out.println("Decimal: " + decimalTime / 1_000_000);
+
+         */
     }
 }

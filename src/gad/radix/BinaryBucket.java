@@ -55,15 +55,11 @@ public class BinaryBucket {
 		this.bucket = bucket;
 	}
 
-	public int getMaxDecimalPlaces() {
-		int maxDecimalPlaces = 0;
+	public void switchSides() {
+		int[] nBucket = new int[bucket.length];
 		for (int i = 0; i < bucket.length; i++) {
-			String number = "" + bucket[i];
-			int currentDecimalPlaces = number.length();
-			if (currentDecimalPlaces > maxDecimalPlaces) {
-				maxDecimalPlaces = currentDecimalPlaces;
-			}
+			nBucket[i] = bucket[bucket.length - 1 - i];
 		}
-		return maxDecimalPlaces;
+		bucket = nBucket;
 	}
 }

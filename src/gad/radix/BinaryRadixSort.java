@@ -29,26 +29,30 @@ public final class BinaryRadixSort {
     }
 
     public static void sort(int[] elements, Result result) {
+        // Inti two buckets
+        BinaryBucket from = new BinaryBucket(elements.length);
+        BinaryBucket to = new BinaryBucket(elements.length);
+
+        for (int i = 0; i < elements.length; i++) {
+            from.insertLeft(elements[i]);
+        }
+
+        for (int i = 0; i < 32; i++) {
+            kSort(from, to, i);
+            result.logArray(from.getBucket());
+            BinaryBucket temp = from;
+            from = to;
+            to = temp;
+        }
+        elements =  from.getBucket();
     }
 
     public static void main(String[] args) {
         int[] test = new int[10_000_000];
         Random random = new Random();
-
         for (int i = 0; i < test.length; i++) {
-            test[i] = random.nextInt(100);
+            test[i] = random.nextInt(Integer.MAX_VALUE);
         }
-        //int[] test2 = new int[] {0100, 1001, 1111, 1010, 0001, 0110};
-        int[] test2 = new int[] {4, 9, 15, 10, 1, 6};
-        BinaryBucket from = new BinaryBucket(8);
-        BinaryBucket to = new BinaryBucket(8);
-        for (int i = 0; i < test2.length; i++) {
-            from.insertLeft(test2[i]);
-        }
-        kSort(from, to, 0);
-        System.out.println(Arrays.toString(from.getBucket()));
-        System.out.println(Arrays.toString(to.getBucket()));
-
         int[] testTwo = Arrays.copyOf(test, test.length);
 
         long start = System.nanoTime();

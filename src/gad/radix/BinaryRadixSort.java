@@ -37,27 +37,22 @@ public final class BinaryRadixSort {
 
             if (value < 0) {
                 to[right] = value;
-                right--;
             } else {
                 to[left] = value;
-                left++;
             }
         }
     }
 
     public static void sort(int[] elements, Result result) {
+        // Init buckets
         BinaryBucket from = new BinaryBucket(elements.length);
         BinaryBucket to = new BinaryBucket(elements.length);
-
-        // Initialize from bucket with the array
         from.setBucket(elements);
 
         // Perform kSort for each binary place
         for (int binPlace = 0; binPlace < 32; binPlace++) {
             kSort(from, to, binPlace);
             result.logArray(to.getBucket());
-
-            // Swap the from and to buckets for the next iteration
             BinaryBucket temp = from;
             from = to;
             to = temp;
@@ -65,7 +60,7 @@ public final class BinaryRadixSort {
 
         // Handle negative numbers using lastSort
         lastSort(from, elements);
-        result.logArray(elements);
+        //result.logArray(elements);
     }
 
     public static void main(String[] args) {

@@ -37,17 +37,23 @@ public final class BinaryRadixSort {
             from.insertLeft(elements[i]);
         }
 
-        for (int i = 0; i < 32; i++) {
-            kSort(from, to, i);
-            result.logArray(from.getBucket());
-            BinaryBucket temp = from;
-            from = to;
-            to = temp;
+        for (int binPlace = 0; binPlace < 32; binPlace++) {
+            kSort(from, to, binPlace);
+            result.logArray(to.getBucket());
         }
-        elements =  from.getBucket();
     }
 
     public static void main(String[] args) {
+        // Own test implementation
+        int[] elements = new int[10];
+        Random element = new Random();
+        for (int i = 0; i < elements.length; i++) {
+            elements[i] = element.nextInt(200);
+        }
+
+        StudentResult studentResult = new StudentResult();
+        sort(elements, studentResult);
+
         int[] test = new int[10_000_000];
         Random random = new Random();
         for (int i = 0; i < test.length; i++) {

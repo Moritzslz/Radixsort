@@ -51,6 +51,10 @@ public class BinaryBucket {
 		return bucket;
 	}
 
+	public void setBucket(int[] bucket) {
+		this.bucket = bucket;
+	}
+
 	public int getMaxDecimalPlaces() {
 		int maxDecimalPlaces = 0;
 		for (int i = 0; i < bucket.length; i++) {

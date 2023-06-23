@@ -13,34 +13,59 @@ public final class BinaryRadixSort {
     }
 
     public static void kSort(BinaryBucket from, BinaryBucket to, int binPlace) {
-        for (int i = 0; i < from.getSize(); i++) {
+        int size = from.getSize();
+
+        for (int i = 0; i < size; i++) {
             int value = from.getValue(i);
             int bit = key(value, binPlace);
-            if (bit == 1) {
-                to.insertRight(value);
-            } else {
+
+            if (bit == 0) {
                 to.insertLeft(value);
+            } else {
+                to.insertRight(value);
             }
         }
     }
 
     public static void lastSort(BinaryBucket from, int[] to) {
+        int size = from.getSize();
+        int left = 0;
+        int right = size - 1;
 
+        for (int i = 0; i < size; i++) {
+            int value = from.getValue(i);
+
+            if (value < 0) {
+                to[right] = value;
+                right--;
+            } else {
+                to[left] = value;
+                left++;
+            }
+        }
     }
 
     public static void sort(int[] elements, Result result) {
-        // Inti two buckets
         BinaryBucket from = new BinaryBucket(elements.length);
         BinaryBucket to = new BinaryBucket(elements.length);
 
-        for (int i = 0; i < elements.length; i++) {
-            from.insertLeft(elements[i]);
-        }
+        // Initialize from bucket with the array
+        from.setBucket(elements);
 
+        // Perform kSort for each binary place
         for (int binPlace = 0; binPlace < 32; binPlace++) {
             kSort(from, to, binPlace);
             result.logArray(to.getBucket());
+
+            // Swap the from and to buckets for the next iteration
+            BinaryBucket temp = from;
+            from = to;
+            to = temp;
         }
+
+        // Handle negative numbers using lastSort
+        lastSort(from, elements);
+        result.logArray(elements);
     }
 
     public static void main(String[] args) {

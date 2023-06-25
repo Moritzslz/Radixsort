@@ -48,6 +48,10 @@ public class BinaryBucket {
 		}
 	}
 
+	public void setValue(int value, int index) {
+		bucket[index] = value;
+	}
+
 	public int[] getBucket() {
 		return bucket;
 	}

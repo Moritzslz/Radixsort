@@ -7,6 +7,8 @@ import java.util.Random;
 
 public final class BinaryRadixSort {
 
+    public static List<Integer>[] buckets = new List[2];
+
     private BinaryRadixSort() {
     }
 
@@ -14,7 +16,7 @@ public final class BinaryRadixSort {
         return (element >> binPlace) & 1;
     }
 
-    public static void concatenate(List<Integer>[] buckets, int[] elements) {
+    public static void concatenate(int[] elements) {
         int k = 0;
         for (int i = 0; i < buckets.length; i++) {
             for (int j = 0; j < buckets[i].size(); j++) {
@@ -24,17 +26,14 @@ public final class BinaryRadixSort {
     }
 
     public static void kSort(BinaryBucket from, BinaryBucket to, int binPlace) {
-        final int DIGITS = 2; // Anzahl der Binärstellen (0 und 1)
-        List<Integer>[] buckets = new List[DIGITS];
-        for (int i = 0; i < buckets.length; i++) {
-            buckets[i] = new ArrayList<>(from.getSize() / DIGITS);
-        }
+        buckets[0] = new ArrayList<>(from.getSize() / 2);
+        buckets[1] = new ArrayList<>(from.getSize() / 2);
 
         for (int i = 0; i < from.getSize(); i++) {
             buckets[key(from.getValue(i), binPlace)].add(from.getValue(i));
         }
 
-        concatenate(buckets, to.getBucket());
+        concatenate(to.getBucket());
         /*
         for (int i = 0; i < from.getSize(); i++) {
             int value = from.getValue(i);
@@ -49,20 +48,18 @@ public final class BinaryRadixSort {
     }
 
     public static void lastSort(BinaryBucket from, int[] to) {
-        BinaryBucket bucket = new BinaryBucket(to.length);
-        for (int i = 0; i < from.getSize(); i++) {
-            int value = from.getValue(i);
-            int bit = key(value, 31);
-            if (bit == 0) {
-                bucket.insertRight(value);
-            } else {
-                bucket.insertLeft(value);
-            }
-        }
-        int[] temp = bucket.getBucket();
-        for (int i = 0; i < to.length; i++) {
-            to[i] = temp[temp.length - 1 - i];
-        }
+        int k = 0;
+        int j = 0;
+       for (int i = from.getSize() - 1; i >= 0 ; i--){
+           if (from.getValue(i) < 0) {
+               to[k] = from.getValue(i);
+               k++;
+           } else {
+               to[k] = from.getValue(j);
+               k++;
+               j++;
+           }
+       }
     }
 
     public static void sort(int[] elements, Result result) {
@@ -82,9 +79,12 @@ public final class BinaryRadixSort {
     }
 
     public static void main(String[] args) {
+
         int[] elements = new int[10];
+        elements[0] = -10;
+        elements[1] = -9;
         Random element = new Random();
-        for (int i = 0; i < elements.length; i++) {
+        for (int i = 2; i < elements.length; i++) {
             elements[i] = element.nextInt(200);
         }
 
@@ -92,7 +92,7 @@ public final class BinaryRadixSort {
         StudentResult studentResult = new StudentResult();
         sort(elements, studentResult);
 
-        /*
+
         int[] test = new int[10_000_000];
         Random random = new Random();
         for (int i = 0; i < test.length; i++) {
@@ -113,7 +113,5 @@ public final class BinaryRadixSort {
         System.out.println("Korrekt sortiert:" + Arrays.equals(test, testTwo));
         System.out.println("Binary: " + binaryTime / 1_000_000);
         System.out.println("Decimal: " + decimalTime / 1_000_000);
-
-         */
     }
 }

@@ -49,7 +49,20 @@ public final class BinaryRadixSort {
     }
 
     public static void lastSort(BinaryBucket from, int[] to) {
-
+        BinaryBucket bucket = new BinaryBucket(to.length);
+        for (int i = 0; i < from.getSize(); i++) {
+            int value = from.getValue(i);
+            int bit = key(value, 31);
+            if (bit == 0) {
+                bucket.insertRight(value);
+            } else {
+                bucket.insertLeft(value);
+            }
+        }
+        int[] temp = bucket.getBucket();
+        for (int i = 0; i < to.length; i++) {
+            to[i] = temp[temp.length - 1 - i];
+        }
     }
 
     public static void sort(int[] elements, Result result) {

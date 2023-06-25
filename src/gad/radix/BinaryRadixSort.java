@@ -17,6 +17,7 @@ public final class BinaryRadixSort {
     }
 
     public static void kSort(BinaryBucket from, BinaryBucket to, int binPlace) {
+        /*
         for(int i = 0; i < from.getMid(); i++) {
             int v = from.getValue(i);
             int k = key(v, binPlace);
@@ -42,7 +43,9 @@ public final class BinaryRadixSort {
                 to.insertRight(v);
             }
         }
-        /*
+
+
+         */
         for (int i = 0; i < from.getSize(); i++) {
             int value = from.getValue(i);
             int bit = key(value, binPlace);
@@ -56,11 +59,10 @@ public final class BinaryRadixSort {
             }
         }
         to.reverseSubarray(to.getMid());
-         */
     }
 
     public static void lastSort(BinaryBucket from, int[] to) {
-              int k = 0, j = 0;
+        int k = 0, j = 0;
         for (int i = from.getSize() - 1; i >= 0 ; i--){
             if (from.getValue(i) < 0) {
                 to[k] = from.getValue(i);
@@ -76,26 +78,20 @@ public final class BinaryRadixSort {
     public static void sort(int[] elements, Result result) {
         //Init Buckets
         BinaryBucket from = new BinaryBucket(elements.length);
-        BinaryBucket to = new BinaryBucket(elements.length);
-        int[] clear = new int[elements.length];
+        BinaryBucket to;
         from.setBucket(elements);
         containsNegative = false;
 
         for (int bitIdx = 0; bitIdx < 32; bitIdx++) {
-           if (bitIdx % 2 == 0) {
-               to.setBucket(clear);
-               kSort(from, to, bitIdx);
-               result.logArray(to.getBucket());
-           } else {
-               from.setBucket(clear);
-               kSort(to, from, bitIdx);
-               result.logArray(from.getBucket());
-           }
+            to = new BinaryBucket(elements.length);
+            kSort(from, to, bitIdx);
+            from.setBucket(to.getBucket());
+            result.logArray(from.getBucket());
         }
 
         if (containsNegative) {
             lastSort(from, elements);
-            //result.logArray(elements);
+            result.logArray(elements);
         }
     }
 

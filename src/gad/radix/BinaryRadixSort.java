@@ -77,16 +77,17 @@ public final class BinaryRadixSort {
         //Init Buckets
         BinaryBucket from = new BinaryBucket(elements.length);
         BinaryBucket to = new BinaryBucket(elements.length);
+        int[] clear = new int[elements.length];
         from.setBucket(elements);
         containsNegative = false;
 
         for (int bitIdx = 0; bitIdx < 32; bitIdx++) {
            if (bitIdx % 2 == 0) {
-               to = new BinaryBucket(elements.length);
+               to.setBucket(clear);
                kSort(from, to, bitIdx);
                result.logArray(to.getBucket());
            } else {
-               from = new BinaryBucket(elements.length);
+               from.setBucket(clear);
                kSort(to, from, bitIdx);
                result.logArray(from.getBucket());
            }
@@ -94,7 +95,7 @@ public final class BinaryRadixSort {
 
         if (containsNegative) {
             lastSort(from, elements);
-            result.logArray(elements);
+            //result.logArray(elements);
         }
     }
 

@@ -18,35 +18,54 @@ public final class BinaryRadixSort {
     }
 
     public static void kSort(BinaryBucket from, BinaryBucket to, int binPlace) {
+        for(int i = 0; i < from.getMid(); i++) {
+            int v = from.getValue(i);
+            int k = key(v, binPlace);
+            if (k == 0) {
+                to.insertLeft(v);
+            } else {
+                to.insertRight(v);
+            }
+        }
+
+        for (int i = from.getSize() - 1; i >= from.getMid(); i--) {
+            int v = from.getValue(i);
+            int k = key(v, binPlace);
+            if (k == 0) {
+                to.insertLeft(v);
+            } else {
+                to.insertRight(v);
+            }
+        }
+        /*
         for (int i = 0; i < from.getSize(); i++) {
             int value = from.getValue(i);
             int bit = key(value, binPlace);
-            if (binPlace == 31 && bit == 1) {
-                containsNegative = true;
-            }
             if (bit == 0) {
                 to.insertLeft(value);
             } else {
+                if (binPlace == 31) {
+                    containsNegative = true;
+                }
                 to.insertRight(value);
             }
         }
-        if (to.getMid() != to.getSize() - 1 && to.getSize() > 2) {
-            to.reverseSubarray(to.getMid());
-        }
+        to.reverseSubarray(to.getMid());
+
+         */
     }
 
     public static void lastSort(BinaryBucket from, int[] to) {
-        int k = 0;
-        int j = 0;
-       for (int i = from.getSize() - 1; i >= 0 ; i--){
-           if (from.getValue(i) < 0) {
-               to[k] = from.getValue(i);
-               k++;
-           } else {
-               to[k] = from.getValue(j);
-               k++;
-               j++;
-           }
+        int k = 0, j = 0;
+        for (int i = from.getSize() - 1; i >= 0 ; i--){
+            if (from.getValue(i) < 0) {
+                to[k] = from.getValue(i);
+                k++;
+            } else {
+                to[k] = from.getValue(j);
+                k++;
+                j++;
+            }
        }
     }
 
@@ -66,8 +85,6 @@ public final class BinaryRadixSort {
 
         if (containsNegative) {
             lastSort(from, elements);
-            from.setBucket(elements);
-            to.setBucket(elements);
             result.logArray(elements);
         }
     }

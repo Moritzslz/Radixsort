@@ -7,7 +7,6 @@ import java.util.Random;
 
 public final class BinaryRadixSort {
 
-    public static List<Integer>[] buckets = new List[2];
     private static boolean containsNegative;
 
     private BinaryRadixSort() {
@@ -24,6 +23,9 @@ public final class BinaryRadixSort {
             if (k == 0) {
                 to.insertLeft(v);
             } else {
+                if (binPlace == 31) {
+                    containsNegative = true;
+                }
                 to.insertRight(v);
             }
         }
@@ -34,6 +36,9 @@ public final class BinaryRadixSort {
             if (k == 0) {
                 to.insertLeft(v);
             } else {
+                if (binPlace == 31) {
+                    containsNegative = true;
+                }
                 to.insertRight(v);
             }
         }
@@ -51,12 +56,11 @@ public final class BinaryRadixSort {
             }
         }
         to.reverseSubarray(to.getMid());
-
          */
     }
 
     public static void lastSort(BinaryBucket from, int[] to) {
-        int k = 0, j = 0;
+              int k = 0, j = 0;
         for (int i = from.getSize() - 1; i >= 0 ; i--){
             if (from.getValue(i) < 0) {
                 to[k] = from.getValue(i);
@@ -77,10 +81,15 @@ public final class BinaryRadixSort {
         containsNegative = false;
 
         for (int bitIdx = 0; bitIdx < 32; bitIdx++) {
-            to = new BinaryBucket(elements.length);
-            kSort(from, to, bitIdx);
-            from.setBucket(to.getBucket());
-            result.logArray(from.getBucket());
+           if (bitIdx % 2 == 0) {
+               to = new BinaryBucket(elements.length);
+               kSort(from, to, bitIdx);
+               result.logArray(to.getBucket());
+           } else {
+               from = new BinaryBucket(elements.length);
+               kSort(to, from, bitIdx);
+               result.logArray(from.getBucket());
+           }
         }
 
         if (containsNegative) {

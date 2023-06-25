@@ -8,6 +8,7 @@ import java.util.Random;
 public final class BinaryRadixSort {
 
     public static List<Integer>[] buckets = new List[2];
+    private static boolean containsNegative;
 
     private BinaryRadixSort() {
     }
@@ -29,12 +30,33 @@ public final class BinaryRadixSort {
         buckets[0] = new ArrayList<>(from.getSize() / 2);
         buckets[1] = new ArrayList<>(from.getSize() / 2);
 
-        for (int i = 0; i < from.getSize(); i++) {
-            buckets[key(from.getValue(i), binPlace)].add(from.getValue(i));
+        if (binPlace != 31) {
+            for (int i = 0; i < from.getSize(); i++) {
+                buckets[key(from.getValue(i), binPlace)].add(from.getValue(i));
+            }
+        } else {
+            for (int i = 0; i < from.getSize(); i++) {
+                int key = key(from.getValue(i), binPlace);
+                if (key == 1) {
+                    containsNegative = true;
+                }
+                buckets[key].add(from.getValue(i));
+            }
         }
 
+
         concatenate(to.getBucket());
-        /*
+
+         /*
+        for (int i = 0; i < from.getSize(); i++) {
+            int v = key(from.getValue(i), binPlace);
+            if (v == 0) {
+                to.insertLeft(v);
+            } else {
+                to.insertRight(v);
+            }
+        }
+
         for (int i = 0; i < from.getSize(); i++) {
             int value = from.getValue(i);
             int bit = key(value, binPlace);
@@ -66,6 +88,7 @@ public final class BinaryRadixSort {
         //Init Buckets
         BinaryBucket from = new BinaryBucket(elements.length);
         from.setBucket(elements);
+        containsNegative = false;
 
         for (int bitIdx = 0; bitIdx < 32; bitIdx++) {
             BinaryBucket to = new BinaryBucket(elements.length);
@@ -74,8 +97,10 @@ public final class BinaryRadixSort {
             result.logArray(from.getBucket());
         }
 
-        lastSort(from, elements);
-        result.logArray(elements);
+        if (containsNegative) {
+            lastSort(from, elements);
+            result.logArray(elements);
+        }
     }
 
     public static void main(String[] args) {

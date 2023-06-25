@@ -6,6 +6,8 @@ public class BinaryBucket {
 	private int leftPointer;
 	private int rightPointer;
 
+	private int maxBit;
+
 	public BinaryBucket(int size) {
 		bucket = new int[size];
 		leftPointer = 0;
@@ -47,6 +49,10 @@ public class BinaryBucket {
 		}
 	}
 
+	public void setValue(int value, int index) {
+		bucket[index] = value;
+	}
+
 	public int[] getBucket() {
 		return bucket;
 	}
@@ -62,4 +68,15 @@ public class BinaryBucket {
 		}
 		bucket = nBucket;
 	}
+
+	public int maxBit() {
+		for (int i = 0; i < bucket.length; i++) {
+			int bitlength = Integer.toBinaryString(bucket[i]).length() - 1;
+			if (bitlength > maxBit) {
+				maxBit = bitlength;
+			}
+		}
+		return maxBit;
+	}
+
 }

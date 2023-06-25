@@ -1,6 +1,8 @@
 package gad.radix;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public final class BinaryRadixSort {
@@ -25,17 +27,19 @@ public final class BinaryRadixSort {
     }
 
     public static void lastSort(BinaryBucket from, int[] to) {
+
     }
 
     public static void sort(int[] elements, Result result) {
         //Init Buckets
         BinaryBucket from = new BinaryBucket(elements.length);
-        BinaryBucket to = new BinaryBucket(elements.length);
         from.setBucket(elements);
 
         for (int bitIdx = 0; bitIdx < 32; bitIdx++) {
+            BinaryBucket to = new BinaryBucket(elements.length);
             kSort(from, to, bitIdx);
-            from = to;
+            from.setBucket(to.getBucket());
+            result.logArray(from.getBucket());
         }
 
         lastSort(from, elements);

@@ -17,37 +17,7 @@ public final class BinaryRadixSort {
         return (element >> binPlace) & 1;
     }
 
-    public static void concatenate(int[] elements) {
-        int k = 0;
-        for (int i = 0; i < buckets.length; i++) {
-            for (int j = 0; j < buckets[i].size(); j++) {
-                elements[k++] = buckets[i].get(j);
-            }
-        }
-    }
-
     public static void kSort(BinaryBucket from, BinaryBucket to, int binPlace) {
-        /*
-        buckets[0] = new ArrayList<>(from.getSize() / 2);
-        buckets[1] = new ArrayList<>(from.getSize() / 2);
-
-        if (binPlace != 31) {
-            for (int i = 0; i < from.getSize(); i++) {
-                buckets[key(from.getValue(i), binPlace)].add(from.getValue(i));
-            }
-        } else {
-            for (int i = 0; i < from.getSize(); i++) {
-                int key = key(from.getValue(i), binPlace);
-                if (key == 1) {
-                    containsNegative = true;
-                }
-                buckets[key].add(from.getValue(i));
-            }
-        }
-        concatenate(to.getBucket());
-
-         */
-
         for (int i = 0; i < from.getSize(); i++) {
             int value = from.getValue(i);
             int bit = key(value, binPlace);
@@ -60,7 +30,9 @@ public final class BinaryRadixSort {
                 to.insertRight(value);
             }
         }
-        to.reverseSubarray(to.getMid());
+        if (to.getMid() != to.getSize() - 1 && to.getSize() > 2) {
+            to.reverseSubarray(to.getMid());
+        }
     }
 
     public static void lastSort(BinaryBucket from, int[] to) {
@@ -81,11 +53,12 @@ public final class BinaryRadixSort {
     public static void sort(int[] elements, Result result) {
         //Init Buckets
         BinaryBucket from = new BinaryBucket(elements.length);
+        BinaryBucket to = new BinaryBucket(elements.length);
         from.setBucket(elements);
         containsNegative = false;
 
         for (int bitIdx = 0; bitIdx < 32; bitIdx++) {
-            BinaryBucket to = new BinaryBucket(elements.length);
+            to = new BinaryBucket(elements.length);
             kSort(from, to, bitIdx);
             from.setBucket(to.getBucket());
             result.logArray(from.getBucket());
@@ -93,6 +66,8 @@ public final class BinaryRadixSort {
 
         if (containsNegative) {
             lastSort(from, elements);
+            from.setBucket(elements);
+            to.setBucket(elements);
             result.logArray(elements);
         }
     }

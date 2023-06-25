@@ -60,4 +60,18 @@ public class BinaryBucket {
 		this.bucket = bucket;
 	}
 
+	public void reverseSubarray(int index) {
+		int start = index;
+		int end = bucket.length - 1;
+
+		while (start < end) {
+			int temp = bucket[start];
+			bucket[start] = bucket[end];
+			bucket[end] = temp;
+
+			start++;
+			end--;
+		}
+	}
+
 }

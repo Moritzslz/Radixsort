@@ -27,6 +27,7 @@ public final class BinaryRadixSort {
     }
 
     public static void kSort(BinaryBucket from, BinaryBucket to, int binPlace) {
+        /*
         buckets[0] = new ArrayList<>(from.getSize() / 2);
         buckets[1] = new ArrayList<>(from.getSize() / 2);
 
@@ -43,30 +44,23 @@ public final class BinaryRadixSort {
                 buckets[key].add(from.getValue(i));
             }
         }
-
-
         concatenate(to.getBucket());
 
-         /*
-        for (int i = 0; i < from.getSize(); i++) {
-            int v = key(from.getValue(i), binPlace);
-            if (v == 0) {
-                to.insertLeft(v);
-            } else {
-                to.insertRight(v);
-            }
-        }
+         */
 
         for (int i = 0; i < from.getSize(); i++) {
             int value = from.getValue(i);
             int bit = key(value, binPlace);
+            if (binPlace == 31 && bit == 1) {
+                containsNegative = true;
+            }
             if (bit == 0) {
                 to.insertLeft(value);
             } else {
                 to.insertRight(value);
             }
         }
-         */
+        to.reverseSubarray(to.getMid());
     }
 
     public static void lastSort(BinaryBucket from, int[] to) {
